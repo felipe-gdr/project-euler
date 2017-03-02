@@ -14,23 +14,24 @@ class Pe003(Problem):
     def execute(self):
         num = 600851475143
 
-        def is_prime(num):
-            quotient = 1
-            while quotient < num / 2:
-                quotient += 1
-                if num % quotient == 0:
-                    # is not prime
-                    return False
-            # is prime
-            return True
-
         quotient_1 = 1
         while quotient_1 < num / 2:
             quotient_1 += 1
             quotient_2 = num / quotient_1
 
-            if num % quotient_1 == 0 and is_prime(quotient_2):
+            if num % quotient_1 == 0 and Pe003.is_prime(quotient_2):
                 return quotient_2
                 break
+
+    @staticmethod
+    def is_prime(num):
+        quotient = 1
+        while quotient < num / 2:
+            quotient += 1
+            if num % quotient == 0:
+                # is not prime
+                return False
+        # is prime
+        return True
 
 Pe003().main()
