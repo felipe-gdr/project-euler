@@ -16,3 +16,4 @@ List of problems
 * 008 - Largest product in a series
 * 009 - Special Pythagorean triplet
 * 010 - Summation of primes
+* 011 - Largest product in a grid
