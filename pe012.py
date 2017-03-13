@@ -26,23 +26,57 @@ from math import sqrt
 
 class Pe012(Problem):
     def __init__(self):
+        self.primes = [2]
+
         self.divs = {}
 
-    def divisors(self, num):
-        count = 1
+    def add_factor(self, factor, factors):
+        if factor in factors:
+            factors[factor] += 1
+        else:
+            factors[factor] = 1
 
-        for i in range(num / 2, 0, -1):
+    def calculate_factors(self, num, factors):
+        if(self.isPrime(num)):
+            factors[num] = 1
+            return
+
+        for i in self.primes:
             if num % i == 0:
-                if num in self.divs:
-                    count += self.divs[num]
-                    break
+                self.add_factor(i, factors)
+                if self.isPrime(num / i):
+                    self.add_factor(num / i, factors)
+                else:
+                    self.calculate_factors(num / i, factors)
+                break
 
-                count += 1
+    def isPrime(self, num):
+        i = 3
 
-        self.divs[num] = count
-        print 'x', self.divs
+        if num in self.primes:
+            return True
 
-        return count
+        while i <= num:
+            if self._isPrime(i):
+                self.primes.append(i)
+
+            i += 2
+
+        return self.primes[-1:][0] == num
+
+    def _isPrime(self, num):
+        for i in self.primes:
+            if num % i == 0:
+                return False
+
+        return True
+
+    def divisors(self, num):
+        factors = {}
+
+        self.calculate_factors(num, factors)
+
+        return reduce(lambda x, y: x * y, map(lambda x: x + 1, factors.values()))
 
     def execute(self):
         num = 0
@@ -50,7 +84,7 @@ class Pe012(Problem):
 
         highest = (0,0,0)
 
-        for i in range(1, 10):
+        for i in range(2, 1000):
             num = i
 
             divs = self.divisors(num)
@@ -64,4 +98,7 @@ class Pe012(Problem):
 
         return str(highest)
 
-Pe012().main()
+Pe012().execute()
+
+#print p.isPrime(2)
+#print Pe012().divisors(29)
