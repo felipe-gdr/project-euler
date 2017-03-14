@@ -25,10 +25,31 @@ from problem import Problem
 from math import sqrt
 
 class Pe012(Problem):
-    def __init__(self):
-        self.primes = [2]
+    def __init__(self, max_prime = 1000000):
+        """
+        Initializes the Problem Class.
+        Parameters:
+          max_prime - no initialized prime number will be higher than this parameter
+        """
+        self.primes = self.initialize_primes(max_prime)
+        print 'Initialized %s prime numbers' % len(self.primes)
 
-        self.divs = {}
+    def initialize_primes(self, max_prime):
+        """
+        Initializes the list of prime numbers using Sieve of Erastosthenes.
+
+        source: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+
+        Parameters:
+          max_prime - no initialized prime number will be higher than this parameter
+        """
+        primes, sieve = [], [True] * (max_prime + 1)
+        for p in range(2, max_prime + 1):
+            if sieve[p]:
+               primes.append(p)
+               for i in range(p * p, max_prime + 1, p):
+                   sieve[i] = False
+        return primes
 
     def add_factor(self, factor, factors):
         if factor in factors:
@@ -41,35 +62,17 @@ class Pe012(Problem):
             factors[num] = 1
             return
 
-        for i in self.primes:
-            if num % i == 0:
-                self.add_factor(i, factors)
-                if self.isPrime(num / i):
-                    self.add_factor(num / i, factors)
+        for prime in self.primes:
+            if num % prime == 0:
+                self.add_factor(prime, factors)
+                if self.isPrime(num / prime):
+                    self.add_factor(num / prime, factors)
                 else:
-                    self.calculate_factors(num / i, factors)
+                    self.calculate_factors(num / prime, factors)
                 break
 
     def isPrime(self, num):
-        i = 3
-
-        if num in self.primes:
-            return True
-
-        while i <= num:
-            if self._isPrime(i):
-                self.primes.append(i)
-
-            i += 2
-
-        return self.primes[-1:][0] == num
-
-    def _isPrime(self, num):
-        for i in self.primes:
-            if num % i == 0:
-                return False
-
-        return True
+        return num in self.primes
 
     def divisors(self, num):
         factors = {}
@@ -84,8 +87,8 @@ class Pe012(Problem):
 
         highest = (0,0,0)
 
-        for i in range(2, 1000):
-            num = i
+        for i in range(2, 100000):
+            num += i
 
             divs = self.divisors(num)
 
@@ -100,5 +103,11 @@ class Pe012(Problem):
 
 Pe012().execute()
 
-#print p.isPrime(2)
-#print Pe012().divisors(29)
+#p = Pe012()
+
+#print p.isPrime(10000)
+#print p.isPrime(1000000)
+#p.initialize_primes(1000000)
+#print p.isPrime(100000)
+
+#print Pe012().divisors(1000000)
