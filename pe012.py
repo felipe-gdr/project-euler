@@ -22,92 +22,20 @@ What is the value of the first triangle number to have over five hundred divisor
 
 '''
 from problem import Problem
-from math import sqrt
 
 class Pe012(Problem):
-    def __init__(self, max_prime = 1000000):
-        """
-        Initializes the Problem Class.
-        Parameters:
-          max_prime - no initialized prime number will be higher than this parameter
-        """
-        self.primes = self.initialize_primes(max_prime)
-        print 'Initialized %s prime numbers' % len(self.primes)
-
-    def initialize_primes(self, max_prime):
-        """
-        Initializes the list of prime numbers using Sieve of Erastosthenes.
-
-        source: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
-
-        Parameters:
-          max_prime - no initialized prime number will be higher than this parameter
-        """
-        primes, sieve = [], [True] * (max_prime + 1)
-        for p in range(2, max_prime + 1):
-            if sieve[p]:
-               primes.append(p)
-               for i in range(p * p, max_prime + 1, p):
-                   sieve[i] = False
-        return primes
-
-    def add_factor(self, factor, factors):
-        if factor in factors:
-            factors[factor] += 1
-        else:
-            factors[factor] = 1
-
-    def calculate_factors(self, num, factors):
-        if(self.isPrime(num)):
-            factors[num] = 1
-            return
-
-        for prime in self.primes:
-            if num % prime == 0:
-                self.add_factor(prime, factors)
-                if self.isPrime(num / prime):
-                    self.add_factor(num / prime, factors)
-                else:
-                    self.calculate_factors(num / prime, factors)
-                break
-
-    def isPrime(self, num):
-        return num in self.primes
-
-    def divisors(self, num):
-        factors = {}
-
-        self.calculate_factors(num, factors)
-
-        return reduce(lambda x, y: x * y, map(lambda x: x + 1, factors.values()))
-
     def execute(self):
         num = 0
-        divs = []
 
-        highest = (0,0,0)
-
-        for i in range(2, 100000):
+        for i in range(1, 100000):
             num += i
 
-            divs = self.divisors(num)
+            factors = len(self.calculate_factors(num))
 
-            if divs > highest[2]:
-                highest = (i, num, divs)
-                print highest
+            if factors >= 500:
+                return num
 
-            if divs >= 500:
-                return str(('v', i, num, divs))
+    def calculate_factors(self, n):
+        return set(reduce(list.__add__, ([i, n//i] for i in range(1, int(n**0.5) + 1) if n % i == 0)))
 
-        return str(highest)
-
-Pe012().execute()
-
-#p = Pe012()
-
-#print p.isPrime(10000)
-#print p.isPrime(1000000)
-#p.initialize_primes(1000000)
-#print p.isPrime(100000)
-
-#print Pe012().divisors(1000000)
+Pe012().main()
