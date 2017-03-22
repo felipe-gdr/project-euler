@@ -19,3 +19,4 @@ List of problems
 * 011 - Largest product in a grid
 * 012 - Highly divisible triangular number
 * 013 - Large sum
+* 014 - Longest Collatz sequence (can be improved)
