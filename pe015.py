@@ -2,33 +2,31 @@
 
 Lattice paths
 ===========================
-Starting in the top left corner of a 2x2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+Starting in the top left corner of a 2x2 grid, and only being able to move to
+the right and down, there are exactly 6 routes to the bottom right corner.
 
 How many such routes are there through a 20x20 grid?
 '''
 from problem import Problem
 
 class Pe015(Problem):
-    def __init__(self):
-        self.count = 0
+    def __init__(self, x, y):
+        # Initialize matrix with given dimensions
+        self.arr = [[0 for i in range(x + 1)] for j in range(y + 1)]
+
+        self.x = x
+        self.y = y
 
     def execute(self):
-        self.move(0, 0)
+        for i in range(0, self.x + 1):
+            for j in range(0, self.y + 1):
+                if i == 0 or j == 0:
+                    # Coordinates at the bottom and right edges have a single
+                    # path to get to the destination
+                    self.arr[i][j] = 1
+                else:
+                    self.arr[i][j] = self.arr[i-1][j] + self.arr[i][j-1]
 
-        return self.count
+        return self.arr[self.x][self.y]
 
-
-    def move(self, pos_x, pos_y):
-        max_x, max_y = (3, 3)
-
-        if pos_x < max_x:
-            self.move(pos_x + 1, pos_y)
-
-        if pos_y < max_y:
-            self.move(pos_x, pos_y + 1)
-        elif pos_x == max_x and pos_y == max_y:
-            self.count += 1
-
-
-
-Pe015().main()
+Pe015(20, 20).main()
