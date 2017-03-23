@@ -20,3 +20,4 @@ List of problems
 * 012 - Highly divisible triangular number
 * 013 - Large sum
 * 014 - Longest Collatz sequence (can be improved)
+* 015 - Lattice paths
