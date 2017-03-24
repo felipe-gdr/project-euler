@@ -21,3 +21,4 @@ List of problems
 * 013 - Large sum
 * 014 - Longest Collatz sequence (can be improved)
 * 015 - Lattice paths
+* 016 - Power digit sum
