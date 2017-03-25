@@ -22,3 +22,4 @@ List of problems
 * 014 - Longest Collatz sequence (can be improved)
 * 015 - Lattice paths
 * 016 - Power digit sum
+* 017 - Number letter counts
