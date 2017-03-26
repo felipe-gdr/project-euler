@@ -23,3 +23,4 @@ List of problems
 * 015 - Lattice paths
 * 016 - Power digit sum
 * 017 - Number letter counts
+* 018 - Maximum path sum I
