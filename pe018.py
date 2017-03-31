@@ -57,11 +57,24 @@ class Pe018(Problem):
 63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23'''
 
-        self.nums = [l.split(' ') for l in test.split('\n')][1:]
+        self.nums = [l.split(' ') for l in triangle.split('\n')][1:]
         self.row_count = len(self.nums)
     
 
+    def reduce(self, nums):
+    	if(len(nums) == 1):
+    		return nums[0][0]
+
+    	last_row = nums[-1:][0]
+    	row_above = nums[-2:-1][0]
+
+    	for i in range(0, len(row_above)):
+    		row_above[i] = int(row_above[i]) + max(int(last_row[i]), int(last_row[i + 1]))
+
+    	return self.reduce(nums[:-1])
+
     def execute(self):
+    	print self.reduce(self.nums)
 
         return True
 
