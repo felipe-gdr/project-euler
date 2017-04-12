@@ -21,62 +21,36 @@ from problem import Problem
 
 class Pe019(Problem):
     def execute(self):
-        day = 2
-        date = 1
-        month = 1
-        year = 1900
+        day, date, month, year, count = [1, 1, 0, 1900, 0]
 
-
-        count = 0
-        while year * 10000 + month * 100 + date <= 19020631:
-        # while count < 100:
+        while year * 10000 + month * 100 + date <= 20001231:
             days_in_month = self.daysInMonth(year, month)
 
-            year = year + ((month) / 12)
-            month = month + ((date + 1) / (days_in_month + 1))
-            # month = (month % 12) + 1
+            year = year + ((month / 11 + date / days_in_month) / 2)
+            month = (month + (date / days_in_month)) % 12
             date = (date % days_in_month) + 1
             day = (day + 1) % 7
 
-            # count += 1
+            if year >= 1901 and date == 1 and day == 0:
+                count += 1
+                print year, month, date, day
 
-            print year, month, date, day
-
-
-        return True
+        return count
 
     def daysInMonth(self, year, month):
-        if month in [2]:
-            if year % 100:
-                if year % 400:
+        if month == 1:
+            if year % 100 == 0:
+                if year % 400 == 0:
                     return 29
                 else:
                     return 28
-            elif year % 4:
+            elif year % 4 == 0:
                 return 29
             else:
                 return 28
-        elif month in [9, 4, 6, 11]:
+        elif month in [8, 3, 5, 10]:
             return 30
         else:
             return 31
 
-    def testDay(self):
-        days_in_month = 30
-        date = 1
-        month = 1
-
-        count = 0
-        while count < 100:
-            # print  'b', date, month
-            month = month + ((date + 1) / (days_in_month + 1))
-            date = (date % days_in_month) + 1
-
-            print  'a', date, month
-            print  ''
-            count += 1
-
-
-
 Pe019().main()
-# Pe019().testDay()
