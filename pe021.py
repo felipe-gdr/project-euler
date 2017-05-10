@@ -15,7 +15,29 @@ from problem import Problem
 
 class Pe021(Problem):
     def execute(self):
-        return 1
+        num_sum = {}
 
+        for i in range(0, 10001):
+            num_sum[i] = self.sumOfDivisors(i)
+
+        amicables = []
+        for n, s in num_sum.iteritems():
+            if s in num_sum and n != s and num_sum[s] == n:
+                amicables.append(n)
+
+        print amicables
+
+        return sum(amicables)
+
+    def sumOfDivisors(self, num):
+        sum_of_divisors = 0
+        div = num / 2
+
+        while div > 0:
+            if num % div == 0:
+                sum_of_divisors += div
+            div -= 1
+
+        return sum_of_divisors
 
 Pe021().main()
