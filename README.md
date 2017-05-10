@@ -26,3 +26,4 @@ List of problems
 * 018 - Maximum path sum I
 * 019 - Counting Sundays
 * 020 - Factorial digit sum
+* 021 - Amicable numbers
